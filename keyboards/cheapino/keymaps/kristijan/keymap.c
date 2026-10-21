@@ -13,7 +13,6 @@ enum layers {
 enum tap_dances {
     TD_SCLN, // tap ;  hold GUI   double-tap '
     TD_RBRC, // tap ]  hold Alt   double-tap Ctrl+]
-    TD_Z,    // tap z  double-tap `
 };
 
 // Home row mods
@@ -37,7 +36,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE] = LAYOUT_split_3x5_3(
         KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,          KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,
         HM_A,     HM_S,     HM_D,     HM_F,     KC_G,          KC_H,     HM_J,     HM_K,     HM_L,     TD(TD_SCLN),
-        TD(TD_Z), KC_X,     KC_C,     KC_V,     KC_B,          KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,
+        KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,          KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,
                             NAV_SPC,  SFT_TAB,  SYM_ESC,       TD(TD_RBRC), SYM_ENT, NAV_BSP
     ),
     [_NAV] = LAYOUT_split_3x5_3(
@@ -172,7 +171,6 @@ typedef struct {
 static const td_config_t td_configs[] = {
     [TD_SCLN] = { KC_SCLN, KC_LGUI, KC_QUOT, 250 },
     [TD_RBRC] = { KC_RBRC, KC_LALT, C(KC_RBRC), 250 },
-    [TD_Z]    = { KC_Z, KC_Z, KC_GRV, 200 },
 };
 
 #define NUM_TAP_DANCES (sizeof(td_configs) / sizeof(td_configs[0]))
@@ -214,7 +212,6 @@ static void td_reset(tap_dance_state_t *state, void *user_data) {
 tap_dance_action_t tap_dance_actions[] = {
     [TD_SCLN] = TD_ENTRY(TD_SCLN),
     [TD_RBRC] = TD_ENTRY(TD_RBRC),
-    [TD_Z]    = TD_ENTRY(TD_Z),
 };
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
@@ -239,7 +236,8 @@ enum combos {
     CB_END,
     CB_TAB_L,
     CB_TAB_R,
-    CB_MINS, // A + S
+    CB_GRV,  // A + S
+    CB_MINS, // S + D
     CB_QUOT, // L + ;
 };
 
@@ -247,7 +245,8 @@ const uint16_t PROGMEM combo_home[]  = {KC_LEFT, KC_DOWN, COMBO_END};
 const uint16_t PROGMEM combo_end[]   = {KC_UP, KC_RGHT, COMBO_END};
 const uint16_t PROGMEM combo_tab_l[] = {KC_C, KC_V, COMBO_END};
 const uint16_t PROGMEM combo_tab_r[] = {KC_M, KC_COMM, COMBO_END};
-const uint16_t PROGMEM combo_mins[]  = {HM_A, HM_S, COMBO_END};
+const uint16_t PROGMEM combo_grv[]   = {HM_A, HM_S, COMBO_END};
+const uint16_t PROGMEM combo_mins[]  = {HM_S, HM_D, COMBO_END};
 const uint16_t PROGMEM combo_quot[]  = {HM_L, TD(TD_SCLN), COMBO_END};
 
 combo_t key_combos[] = {
@@ -255,12 +254,13 @@ combo_t key_combos[] = {
     [CB_END]   = COMBO(combo_end, KC_END),
     [CB_TAB_L] = COMBO(combo_tab_l, KC_TAB),
     [CB_TAB_R] = COMBO(combo_tab_r, KC_TAB),
+    [CB_GRV]   = COMBO(combo_grv, KC_GRV),
     [CB_MINS]  = COMBO(combo_mins, KC_MINS),
     [CB_QUOT]  = COMBO(combo_quot, KC_QUOT),
 };
 
 static bool is_hrm_combo(uint16_t combo_index) {
-    return combo_index == CB_MINS || combo_index == CB_QUOT;
+    return combo_index == CB_GRV || combo_index == CB_MINS || combo_index == CB_QUOT;
 }
 
 // Home row combos only fire when tapped. Holding both keys past

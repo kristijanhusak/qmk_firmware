@@ -14,7 +14,7 @@
 
 // Thumb layer-taps (space, esc, enter, backspace)
 #define THUMB_TAPPING_TERM 200
-#define THUMB_FLOW_TAP_TERM 0 // 0 = no flow tap on thumbs
+#define THUMB_FLOW_TAP_TERM 100 // 0 = no flow tap on thumbs
 
 // Thumb Shift / Tab: tapped alone within this time = Tab, longer = plain Shift
 #define SHIFT_TAB_TAPPING_TERM 200
