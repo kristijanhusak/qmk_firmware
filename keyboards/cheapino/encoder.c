@@ -11,11 +11,11 @@
 static bool colABPressed   = false;
 static bool encoderPressed = false;
 
-void clicked(void) {
+__attribute__((weak)) void clicked(void) {
     tap_code(KC_MPLY);
 }
 
-void turned(bool clockwise) {
+__attribute__((weak)) void turned(bool clockwise) {
     if (IS_LAYER_ON(6)) {
         tap_code(clockwise ? KC_VOLU : KC_VOLD);
     } else if (IS_LAYER_ON(3)) {
