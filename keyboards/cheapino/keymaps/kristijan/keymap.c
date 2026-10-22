@@ -41,8 +41,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_NAV] = LAYOUT_split_3x5_3(
         KC_1,     KC_2,     KC_3,     KC_4,     KC_5,          KC_6,     KC_7,     KC_8,     KC_9,     KC_0,
-        KC_LGUI,  KC_LALT,  KC_LCTL,  KC_LSFT,  CW_TOGG,       KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  KC_QUOT,
-        A(KC_1),  A(KC_2),  A(KC_3),  A(KC_4),  A(KC_5),       A(KC_6),  KC_LBRC,  KC_RBRC,  KC_PSCR,  MO(_FUN),
+        KC_LGUI,  KC_LALT,  KC_LCTL,  KC_LSFT,  MO(_FUN),      KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  KC_QUOT,
+        A(KC_1),  A(KC_2),  A(KC_3),  A(KC_4),  A(KC_5),       A(KC_6),  KC_LBRC,  KC_RBRC,  KC_PSCR,  CW_TOGG,
                             _______,  _______,  _______,       MO(_FUN), _______,  KC_DEL
     ),
     [_SYM] = LAYOUT_split_3x5_3(
@@ -122,27 +122,21 @@ uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t *record, uint16_t prev_
 static const uint16_t PROGMEM encoder_turns[][2] = {
     [_BASE] = { KC_VOLU, KC_VOLD },
     [_NAV]  = { MS_WHLD, MS_WHLU },
-    [_SYM]  = { UG_PREV, UG_NEXT },
-    [_FUN]  = { UG_NEXT, UG_PREV },
+    [_SYM]  = { KC_MPRV, KC_MNXT },
+    [_FUN]  = { MS_WHLD, MS_WHLU },
 };
 
 static const uint16_t PROGMEM encoder_clicks[] = {
     [_BASE] = KC_MUTE,
-    [_NAV]  = MS_BTN3,
+    [_NAV]  = UG_TOGG,
     [_SYM]  = KC_MPLY,
-    [_FUN]  = UG_TOGG,
+    [_FUN]  = MS_BTN3,
 };
 
 static void encoder_tap(uint16_t keycode) {
     switch (keycode) {
         case UG_TOGG:
             rgblight_toggle();
-            break;
-        case UG_NEXT:
-            rgblight_step();
-            break;
-        case UG_PREV:
-            rgblight_step_reverse();
             break;
         default:
             tap_code16(keycode);
