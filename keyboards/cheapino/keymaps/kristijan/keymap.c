@@ -11,7 +11,6 @@ enum layers {
 };
 
 enum tap_dances {
-    TD_SCLN, // tap ;  hold GUI   double-tap '
     TD_RBRC, // tap ]  hold Alt   double-tap Ctrl+]
 };
 
@@ -23,6 +22,7 @@ enum tap_dances {
 #define HM_J LSFT_T(KC_J)
 #define HM_K LCTL_T(KC_K)
 #define HM_L LALT_T(KC_L)
+#define HM_SCLN LGUI_T(KC_SCLN)
 
 // Thumbs
 #define NAV_SPC LT(_NAV, KC_SPC)
@@ -35,7 +35,7 @@ enum tap_dances {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE] = LAYOUT_split_3x5_3(
         KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,          KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,
-        HM_A,     HM_S,     HM_D,     HM_F,     KC_G,          KC_H,     HM_J,     HM_K,     HM_L,     TD(TD_SCLN),
+        HM_A,     HM_S,     HM_D,     HM_F,     KC_G,          KC_H,     HM_J,     HM_K,     HM_L,     HM_SCLN,
         KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,          KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,
                             NAV_SPC,  SFT_TAB,  SYM_ESC,       TD(TD_RBRC), SYM_ENT, NAV_BSP
     ),
@@ -169,7 +169,6 @@ typedef struct {
 } td_config_t;
 
 static const td_config_t td_configs[] = {
-    [TD_SCLN] = { KC_SCLN, KC_LGUI, KC_QUOT, 250 },
     [TD_RBRC] = { KC_RBRC, KC_LALT, C(KC_RBRC), 250 },
 };
 
@@ -210,7 +209,6 @@ static void td_reset(tap_dance_state_t *state, void *user_data) {
     { .fn = {NULL, td_finished, td_reset, NULL}, .user_data = (void *)(uintptr_t)(idx) }
 
 tap_dance_action_t tap_dance_actions[] = {
-    [TD_SCLN] = TD_ENTRY(TD_SCLN),
     [TD_RBRC] = TD_ENTRY(TD_RBRC),
 };
 
@@ -238,7 +236,8 @@ enum combos {
     CB_TAB_R,
     CB_GRV,  // A + S
     CB_MINS, // S + D
-    CB_QUOT, // L + ;
+    CB_QUOT, // K + L
+    CB_ESC,  // D + F
 };
 
 const uint16_t PROGMEM combo_home[]  = {KC_LEFT, KC_DOWN, COMBO_END};
@@ -247,7 +246,8 @@ const uint16_t PROGMEM combo_tab_l[] = {KC_C, KC_V, COMBO_END};
 const uint16_t PROGMEM combo_tab_r[] = {KC_M, KC_COMM, COMBO_END};
 const uint16_t PROGMEM combo_grv[]   = {HM_A, HM_S, COMBO_END};
 const uint16_t PROGMEM combo_mins[]  = {HM_S, HM_D, COMBO_END};
-const uint16_t PROGMEM combo_quot[]  = {HM_L, TD(TD_SCLN), COMBO_END};
+const uint16_t PROGMEM combo_quot[]  = {HM_K, HM_L, COMBO_END};
+const uint16_t PROGMEM combo_esc[]   = {HM_D, HM_F, COMBO_END};
 
 combo_t key_combos[] = {
     [CB_HOME]  = COMBO(combo_home, KC_HOME),
@@ -257,10 +257,11 @@ combo_t key_combos[] = {
     [CB_GRV]   = COMBO(combo_grv, KC_GRV),
     [CB_MINS]  = COMBO(combo_mins, KC_MINS),
     [CB_QUOT]  = COMBO(combo_quot, KC_QUOT),
+    [CB_ESC]   = COMBO(combo_esc, KC_ESC),
 };
 
 static bool is_hrm_combo(uint16_t combo_index) {
-    return combo_index == CB_GRV || combo_index == CB_MINS || combo_index == CB_QUOT;
+    return combo_index == CB_GRV || combo_index == CB_MINS || combo_index == CB_QUOT || combo_index == CB_ESC;
 }
 
 // Home row combos only fire when tapped. Holding both keys past
@@ -287,7 +288,9 @@ bool pre_process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
-    if (!is_hrm_combo(combo_index) || !record->event.pressed) {
+    // Esc usually comes right after typing (e.g. leaving insert mode in Vim),
+    // so it skips the idle check. D+F rolls are rare in normal text.
+    if (!is_hrm_combo(combo_index) || combo_index == CB_ESC || !record->event.pressed) {
         return true;
     }
     // Second key of the combo: the first one already passed the check.
