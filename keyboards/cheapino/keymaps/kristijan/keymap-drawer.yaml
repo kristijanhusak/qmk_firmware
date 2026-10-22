@@ -39,6 +39,12 @@ parse_config:
     # Misc
     CW_TOGG: Caps Word
     QK_BOOT: Boot
+    # Encoder: press in the middle, turns above (↺) and below (↻). Keep in sync with
+    # encoder_turns[] and encoder_clicks[] in keymap.c
+    ENC_BASE: {s: ↺ Vol+, t: Mute, h: ↻ Vol-}
+    ENC_NAV: {s: ↺ Scroll↓, t: RGB, h: ↻ Scroll↑}
+    ENC_SYM: {s: ↺ Prev, t: Play/Pause, h: ↻ Next}
+    ENC_FUN: {s: ↺ Scroll↓, t: MMB, h: ↻ Scroll↑}
 
   # Labels for plain keycodes (without KC_). Setting this replaces
   # keymap-drawer's built-in map, so its defaults are copied in below.
