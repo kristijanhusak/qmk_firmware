@@ -4,12 +4,12 @@
 
 // Tap-hold
 #undef TAPPING_TERM
-#define TAPPING_TERM 280 // home row mods
+#define TAPPING_TERM 250 // home row mods
 #define TAPPING_TERM_PER_KEY
 #define QUICK_TAP_TERM 175
 #define QUICK_TAP_TERM_PER_KEY
 #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
-#define PERMISSIVE_HOLD
+#define PERMISSIVE_HOLD_PER_KEY // thumbs only, see get_permissive_hold()
 #define CHORDAL_HOLD // thumbs are excluded, see get_chordal_hold()
 
 // Thumb layer-taps (space, esc, enter, backspace)

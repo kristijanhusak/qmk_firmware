@@ -76,6 +76,13 @@ static bool is_thumb(uint16_t keycode) {
     return false;
 }
 
+// Permissive hold only on thumbs, so layers are quick to reach. Home row mods
+// become a hold only after TAPPING_TERM, so a lingering finger while typing
+// (e.g. L still down while tapping D) stays a tap.
+bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
+    return is_thumb(keycode);
+}
+
 // SFT_TAB becomes Shift as soon as another key goes down, so it types like a
 // real Shift. Tab only comes out when it is tapped on its own.
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
