@@ -239,6 +239,8 @@ enum combos {
     CB_MINS, // S + D
     CB_QUOT, // K + L
     CB_ESC,  // D + F
+    CB_PGDN, // NAV: N + M
+    CB_PGUP, // NAV: , + .
 };
 
 const uint16_t PROGMEM combo_home[]  = {KC_LEFT, KC_DOWN, COMBO_END};
@@ -249,6 +251,8 @@ const uint16_t PROGMEM combo_grv[]   = {HM_A, HM_S, COMBO_END};
 const uint16_t PROGMEM combo_mins[]  = {HM_S, HM_D, COMBO_END};
 const uint16_t PROGMEM combo_quot[]  = {HM_K, HM_L, COMBO_END};
 const uint16_t PROGMEM combo_esc[]   = {HM_D, HM_F, COMBO_END};
+const uint16_t PROGMEM combo_pgdn[]  = {A(KC_6), KC_LBRC, COMBO_END};
+const uint16_t PROGMEM combo_pgup[]  = {KC_RBRC, KC_PSCR, COMBO_END};
 
 combo_t key_combos[] = {
     [CB_HOME]  = COMBO(combo_home, KC_HOME),
@@ -259,6 +263,8 @@ combo_t key_combos[] = {
     [CB_MINS]  = COMBO(combo_mins, KC_MINS),
     [CB_QUOT]  = COMBO(combo_quot, KC_QUOT),
     [CB_ESC]   = COMBO(combo_esc, KC_ESC),
+    [CB_PGDN]  = COMBO(combo_pgdn, KC_PGDN),
+    [CB_PGUP]  = COMBO(combo_pgup, KC_PGUP),
 };
 
 static bool is_hrm_combo(uint16_t combo_index) {

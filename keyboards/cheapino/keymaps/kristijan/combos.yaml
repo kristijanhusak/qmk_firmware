@@ -10,3 +10,5 @@ combos:
   - {p: [26, 27], k: Tab, l: [BASE]}
   - {p: [15, 16], k: Home, l: [NAV]}
   - {p: [17, 18], k: End, l: [NAV]}
+  - {p: [25, 26], k: PgDn, l: [NAV]}
+  - {p: [27, 28], k: PgUp, l: [NAV]}
