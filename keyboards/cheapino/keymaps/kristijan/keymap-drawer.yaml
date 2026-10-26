@@ -33,6 +33,8 @@ parse_config:
     MS_DOWN: Ms ↓
     MS_UP: Ms ↑
     MS_RGHT: Ms →
+    MS_WHLD: Scroll ↓
+    MS_WHLU: Scroll ↑
     MS_BTN1: LMB
     MS_BTN2: RMB
     MS_BTN3: MMB
